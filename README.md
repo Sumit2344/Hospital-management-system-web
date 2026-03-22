@@ -5,8 +5,7 @@
 
 ---
 
-# 🔥 6. Author section (IMPORTANT 🔥)
-
+ 
 ```md id="author1"
 ## 👨‍💻 Author
 
