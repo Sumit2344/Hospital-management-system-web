@@ -12,7 +12,12 @@ This Hospital Management System helps manage patients, doctors, and appointments
 - Real-time Appointment Booking
 - Payment Integration
 ---
+ ---
 
+## 🚀 Live Demo
+
+🔗 Click here to view the project:  
+👉 [Open Project](https://wheezier-unspawned-lewis.ngrok-free.dev)
 ## 📸 Project Preview
 
 <p align="center">
