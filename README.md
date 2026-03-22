@@ -24,12 +24,11 @@ This Hospital Management System helps manage patients, doctors, and appointments
 ---
 ## ⚙️ Installation
 
-```bash
-git clone https://github.com/Sumit2344/Hospital-management-system-web.git
-cd Hospital-management-system-web
-npm install
-npm start
-
+-git clone https://github.com/Sumit2344/Hospital-management-system-web.git
+-cd Hospital-management-system-web
+-npm install
+-npm start
+---
 ## 🎯 Objectives
 
 - Simplify hospital operations  
