@@ -2,6 +2,16 @@
 ![Express](https://img.shields.io/badge/Express.js-Backend-black)
 ![React](https://img.shields.io/badge/React-Frontend-blue)
 ![Node.js](https://img.shields.io/badge/Node.js-Server-green)
+
+---
+
+# 🔥 6. Author section (IMPORTANT 🔥)
+
+```md id="author1"
+## 👨‍💻 Author
+
+- Sumit Pal  
+- GitHub: https://github.com/Sumit2344
  # 🏥 Hospital Management System (MERN Stack)
 
 A full-stack web application designed to digitalize and simplify hospital operations. The system provides a centralized platform for managing patients, doctors, staff, and medical records with secure access and real-time updates.
@@ -13,6 +23,13 @@ A full-stack web application designed to digitalize and simplify hospital operat
 This Hospital Management System helps manage patients, doctors, and appointments efficiently with a user-friendly interface.
 
 ---
+## ⚙️ Installation
+
+```bash
+git clone https://github.com/Sumit2344/Hospital-management-system-web.git
+cd Hospital-management-system-web
+npm install
+npm start
 
 ## 🎯 Objectives
 
@@ -21,13 +38,20 @@ This Hospital Management System helps manage patients, doctors, and appointments
 - Provide secure data handling  
 
 ---
+## ✨ Features
+
+- User Authentication (Login/Register)  
+- Book Appointments  
+- Admin Dashboard  
+- Doctor Management  
+- Secure Payment Integration  
 
 ## 🔥 Key Highlights
 
 - Full Stack MERN Project  
 - Secure Authentication (JWT)  
 - Real-time Appointment Booking  
-- Payment Integration  
+
 
 ---
 
