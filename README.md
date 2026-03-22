@@ -1,2 +1,52 @@
-# MERN-Stack-Hospital-Management-System-Web-Application-main
+ # 🏥 Hospital Management System (MERN Stack)
+
 A full-stack web application designed to digitalize and simplify hospital operations. The system provides a centralized platform for managing patients, doctors, staff, and medical records with secure access and real-time updates.
+
+---
+
+## 📖 About the Project
+
+This Hospital Management System helps manage patients, doctors, and appointments efficiently with a user-friendly interface.
+
+---
+
+## 🎯 Objectives
+
+- Simplify hospital operations  
+- Improve patient-doctor communication  
+- Provide secure data handling  
+
+---
+
+## 🔥 Key Highlights
+
+- Full Stack MERN Project  
+- Secure Authentication (JWT)  
+- Real-time Appointment Booking  
+- Payment Integration  
+
+---
+
+## 🚀 Live Demo
+
+🔗 Click here to view the project:  
+👉 [Open Project](https://wheezier-unspawned-lewis.ngrok-free.dev)
+
+---
+
+## 📸 Project Preview
+
+<p align="center">
+  <img src="screenshots/dashboard.png" width="800"/>
+</p>
+<p align="center"><b>📊 Dashboard</b></p>
+
+---
+
+<p align="center">
+  <img src="screenshots/appointment.png" width="800"/>
+</p>
+<p align="center"><b>📅 Appointment</b></p>
+
+---
+ 
