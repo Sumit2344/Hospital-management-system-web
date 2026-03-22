@@ -6,7 +6,7 @@
 ---
 
  
-```md id="author1"
+ 
 ## 👨‍💻 Author
 
 - Sumit Pal  
