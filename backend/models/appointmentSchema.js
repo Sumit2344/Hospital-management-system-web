@@ -10,8 +10,7 @@ const appointmentSchema = new mongoose.Schema({
   },
   lastName: {
     type: String,
-    required: [true, "Last Name Is Required!"],
-    minLength: [3, "Last Name Must Contain At Least 3 Characters!"],
+    default: "",
   },
   email: {
     type: String,
@@ -21,18 +20,15 @@ const appointmentSchema = new mongoose.Schema({
   phone: {
     type: String,
     required: [true, "Phone Is Required!"],
-    minLength: [11, "Phone Number Must Contain Exact 11 Digits!"],
-    maxLength: [11, "Phone Number Must Contain Exact 11 Digits!"],
-  },
-  nic: {
-    type: String,
-    required: [true, "NIC Is Required!"],
-    minLength: [13, "NIC Must Contain Only 13 Digits!"],
-    maxLength: [13, "NIC Must Contain Only 13 Digits!"],
+    validate: {
+      validator: function (v) {
+        return /^[6-9]\d{9}$/.test(v);
+      },
+      message: "Phone Number Must Be Exactly 10 Digits!",
+    },
   },
   dob: {
     type: Date,
-    required: [true, "DOB Is Required!"],
   },
   gender: {
     type: String,
@@ -63,7 +59,7 @@ const appointmentSchema = new mongoose.Schema({
   },
   address: {
     type: String,
-    required: [true, "Address Is Required!"],
+    default: "",
   },
   doctorId: {
     type: mongoose.Schema.ObjectId,

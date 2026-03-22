@@ -1,4 +1,8 @@
-import app from "./app.js";
+import dotenv from "dotenv";
+
+ dotenv.config({ path: "./config.env" });
+
+ import app from "./app.js";
 import cloudinary from "cloudinary";
 
 cloudinary.v2.config({
@@ -8,5 +12,8 @@ cloudinary.v2.config({
 });
 
 app.listen(process.env.PORT, () => {
+  console.log("MONGO URI:", process.env.MONGO_URI);
+console.log("PORT:", process.env.PORT);
   console.log(`Server listening at port ${process.env.PORT}`);
 });
+ 

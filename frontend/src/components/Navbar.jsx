@@ -17,45 +17,61 @@ const Navbar = () => {
       .then((res) => {
         toast.success(res.data.message);
         setIsAuthenticated(false);
+        setShow(false);
       })
       .catch((err) => {
-        toast.error(err.response.data.message);
+        toast.error(
+          err.response?.data?.message || "Logout failed. Please try again."
+        );
       });
   };
 
   const navigateTo = useNavigate();
 
   const goToLogin = () => {
+    setShow(false);
     navigateTo("/login");
   };
 
   return (
     <>
-      <nav className={"container"}>
-        <div className="logo">
+      <nav className={"container site-nav"}>
+        <div className="logo brand-mark">
           <img src="/logo.png" alt="logo" className="logo-img" />
+          <div>
+            <span className="brand-title">ZeeCare+</span>
+            <p>Simple care, clearer information, faster booking.</p>
+          </div>
         </div>
         <div className={show ? "navLinks showmenu" : "navLinks"}>
           <div className="links">
-            <Link to={"/"} onClick={() => setShow(!show)}>
+            <Link to={"/"} onClick={() => setShow(false)}>
               Home
             </Link>
-            <Link to={"/appointment"} onClick={() => setShow(!show)}>
+            <Link to={"/appointment"} onClick={() => setShow(false)}>
               Appointment
             </Link>
-            <Link to={"/about"} onClick={() => setShow(!show)}>
+            <Link to={"/about"} onClick={() => setShow(false)}>
               About Us
             </Link>
+            <Link to={"/profile"} onClick={() => setShow(false)}>
+              Our Profile
+            </Link>
           </div>
-          {isAuthenticated ? (
-            <button className="logoutBtn btn" onClick={handleLogout}>
-              LOGOUT
-            </button>
-          ) : (
-            <button className="loginBtn btn" onClick={goToLogin}>
-              LOGIN
-            </button>
-          )}
+          <div className="nav-actions">
+            <Link to={"/appointment"} className="btn ghost-btn" onClick={() => setShow(false)}>
+              Book Visit
+            </Link>
+            {isAuthenticated ? (
+              <button className="logoutBtn btn" onClick={handleLogout}>
+                Logout
+              </button>
+            ) : (
+              <button className="loginBtn btn" onClick={goToLogin}>
+                Login
+              </button>
+            )}
+          </div>
         </div>
         <div className="hamburger" onClick={() => setShow(!show)}>
           <GiHamburgerMenu />

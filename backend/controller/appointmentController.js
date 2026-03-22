@@ -9,7 +9,7 @@ export const postAppointment = catchAsyncErrors(async (req, res, next) => {
     lastName,
     email,
     phone,
-    nic,
+    
     dob,
     gender,
     appointment_date,
@@ -21,17 +21,13 @@ export const postAppointment = catchAsyncErrors(async (req, res, next) => {
   } = req.body;
   if (
     !firstName ||
-    !lastName ||
     !email ||
     !phone ||
-    !nic ||
-    !dob ||
     !gender ||
     !appointment_date ||
     !department ||
     !doctor_firstName ||
-    !doctor_lastName ||
-    !address
+    !doctor_lastName
   ) {
     return next(new ErrorHandler("Please Fill Full Form!", 400));
   }
@@ -57,10 +53,9 @@ export const postAppointment = catchAsyncErrors(async (req, res, next) => {
   const patientId = req.user._id;
   const appointment = await Appointment.create({
     firstName,
-    lastName,
+    lastName: lastName || "",
     email,
     phone,
-    nic,
     dob,
     gender,
     appointment_date,
@@ -70,7 +65,7 @@ export const postAppointment = catchAsyncErrors(async (req, res, next) => {
       lastName: doctor_lastName,
     },
     hasVisited,
-    address,
+    address: address || "",
     doctorId,
     patientId,
   });

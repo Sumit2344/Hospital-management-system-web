@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useContext, useState } from "react";
+import  { useContext, useState } from "react";
 import { toast } from "react-toastify";
 import { Context } from "../main";
 import { Link, useNavigate, Navigate } from "react-router-dom";
@@ -7,10 +7,9 @@ import { Link, useNavigate, Navigate } from "react-router-dom";
 const Login = () => {
   const { isAuthenticated, setIsAuthenticated } = useContext(Context);
 
-  const [email, setEmail] = useState("");
+  const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-
+ 
   const navigateTo = useNavigate();
 
   const handleLogin = async (e) => {
@@ -19,7 +18,7 @@ const Login = () => {
       await axios
         .post(
           "http://localhost:5000/api/v1/user/login",
-          { email, password, confirmPassword, role: "Patient" },
+          { identifier, password, role: "Patient" },
           {
             withCredentials: true,
             headers: { "Content-Type": "application/json" },
@@ -29,12 +28,14 @@ const Login = () => {
           toast.success(res.data.message);
           setIsAuthenticated(true);
           navigateTo("/");
-          setEmail("");
+          setIdentifier("");
           setPassword("");
-          setConfirmPassword("");
+           
         });
     } catch (error) {
-      toast.error(error.response.data.message);
+      toast.error(
+        error.response?.data?.message || "Login failed. Check backend connection."
+      );
     }
   };
 
@@ -54,9 +55,9 @@ const Login = () => {
         <form onSubmit={handleLogin}>
           <input
             type="text"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Email or Mobile Number"
+            value={identifier}
+            onChange={(e) => setIdentifier(e.target.value)}
           />
           <input
             type="password"
@@ -64,12 +65,7 @@ const Login = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-          <input
-            type="password"
-            placeholder="Confirm Password"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-          />
+           
           <div
             style={{
               gap: "10px",

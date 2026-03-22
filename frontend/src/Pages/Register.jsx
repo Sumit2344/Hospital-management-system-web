@@ -7,12 +7,9 @@ import { Link, Navigate, useNavigate } from "react-router-dom";
 const Register = () => {
   const { isAuthenticated, setIsAuthenticated } = useContext(Context);
 
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
-  const [nic, setNic] = useState("");
-  const [dob, setDob] = useState("");
   const [gender, setGender] = useState("");
   const [password, setPassword] = useState("");
 
@@ -24,7 +21,7 @@ const Register = () => {
       await axios
         .post(
           "http://localhost:5000/api/v1/user/patient/register",
-          { firstName, lastName, email, phone, nic, dob, gender, password },
+          { name, email, phone, gender, password },
           {
             withCredentials: true,
             headers: { "Content-Type": "application/json" },
@@ -34,17 +31,16 @@ const Register = () => {
           toast.success(res.data.message);
           setIsAuthenticated(true);
           navigateTo("/");
-          setFirstName("");
-          setLastName("");
+          setName("");
           setEmail("");
           setPhone("");
-          setNic("");
-          setDob("");
           setGender("");
           setPassword("");
         });
     } catch (error) {
-      toast.error(error.response.data.message);
+      toast.error(
+        error.response?.data?.message || "Registration failed. Check backend connection."
+      );
     }
   };
 
@@ -65,46 +61,24 @@ const Register = () => {
           <div>
             <input
               type="text"
-              placeholder="First Name"
-              value={firstName}
-              onChange={(e) => setFirstName(e.target.value)}
+              placeholder="Full Name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
             />
-            <input
-              type="text"
-              placeholder="Last Name"
-              value={lastName}
-              onChange={(e) => setLastName(e.target.value)}
-            />
-          </div>
-          <div>
             <input
               type="text"
               placeholder="Email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
+          </div>
+          <div>
             <input
-              type="number"
+              type="tel"
               placeholder="Mobile Number"
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
             />
-          </div>
-          <div>
-            <input
-              type="number"
-              placeholder="NIC"
-              value={nic}
-              onChange={(e) => setNic(e.target.value)}
-            />
-            <input
-              type={"date"}
-              placeholder="Date of Birth"
-              value={dob}
-              onChange={(e) => setDob(e.target.value)}
-            />
-          </div>
-          <div>
             <select value={gender} onChange={(e) => setGender(e.target.value)}>
               <option value="">Select Gender</option>
               <option value="Male">Male</option>
@@ -126,7 +100,7 @@ const Register = () => {
           >
             <p style={{ marginBottom: 0 }}>Already Registered?</p>
             <Link
-              to={"/signin"}
+              to={"/login"}
               style={{ textDecoration: "none", color: "#271776ca" }}
             >
               Login Now

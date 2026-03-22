@@ -1,3 +1,6 @@
+import dotenv from "dotenv";
+dotenv.config({ path: "./config.env" });
+
 import express from "express";
 import { dbConnection } from "./database/dbConnection.js";
 import { config } from "dotenv";
@@ -10,7 +13,7 @@ import userRouter from "./router/userRouter.js";
 import appointmentRouter from "./router/appointmentRouter.js";
 
 const app = express();
-config({ path: "./config.env" });
+ 
 
 app.use(
   cors({

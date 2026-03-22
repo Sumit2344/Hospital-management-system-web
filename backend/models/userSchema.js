@@ -7,33 +7,41 @@ const userSchema = new mongoose.Schema({
   firstName: {
     type: String,
     required: [true, "First Name Is Required!"],
+    trim: true,
     minLength: [3, "First Name Must Contain At Least 3 Characters!"],
   },
   lastName: {
     type: String,
-    required: [true, "Last Name Is Required!"],
-    minLength: [3, "Last Name Must Contain At Least 3 Characters!"],
+    trim: true,
+    default: "",
+    validate: {
+      validator: function (value) {
+        return !value || value.length >= 3;
+      },
+      message: "Last Name Must Contain At Least 3 Characters!",
+    },
   },
   email: {
     type: String,
     required: [true, "Email Is Required!"],
+    unique: true,                // Ensure no duplicates
+    lowercase: true,             // Save lowercase
+    trim: true,
     validate: [validator.isEmail, "Provide A Valid Email!"],
   },
   phone: {
     type: String,
     required: [true, "Phone Is Required!"],
-    minLength: [11, "Phone Number Must Contain Exact 11 Digits!"],
-    maxLength: [11, "Phone Number Must Contain Exact 11 Digits!"],
-  },
-  nic: {
-    type: String,
-    required: [true, "NIC Is Required!"],
-    minLength: [13, "NIC Must Contain Only 13 Digits!"],
-    maxLength: [13, "NIC Must Contain Only 13 Digits!"],
+    unique: true,                // Optional: prevent duplicate numbers
+    validate: {
+      validator: function (v) {
+        return /^[6-9]\d{9}$/.test(v); // India format: 10 digits, start 6-9
+      },
+      message: "Phone Number Must Be Exactly 10 Digits!",
+    },
   },
   dob: {
     type: Date,
-    required: [true, "DOB Is Required!"],
   },
   gender: {
     type: String,
@@ -51,7 +59,7 @@ const userSchema = new mongoose.Schema({
     required: [true, "User Role Required!"],
     enum: ["Patient", "Doctor", "Admin"],
   },
-  doctorDepartment:{
+  doctorDepartment: {
     type: String,
   },
   docAvatar: {
@@ -60,20 +68,22 @@ const userSchema = new mongoose.Schema({
   },
 });
 
+// Password Hashing
 userSchema.pre("save", async function (next) {
-  if (!this.isModified("password")) {
-    next();
-  }
+  if (!this.isModified("password")) return next();
   this.password = await bcrypt.hash(this.password, 10);
 });
 
+// Password Comparison
 userSchema.methods.comparePassword = async function (enteredPassword) {
   return await bcrypt.compare(enteredPassword, this.password);
 };
 
+// JWT Token
 userSchema.methods.generateJsonWebToken = function () {
-  return jwt.sign({ id: this._id }, process.env.JWT_SECRET_KEY, {
-    expiresIn: process.env.JWT_EXPIRES,
+  const jwtSecret = process.env.JWT_SECRET_KEY || process.env.JWT_SECRET;
+  return jwt.sign({ id: this._id }, jwtSecret, {
+    expiresIn: process.env.JWT_EXPIRES || "7d",
   });
 };
 

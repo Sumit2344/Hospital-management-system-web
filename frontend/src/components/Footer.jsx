@@ -5,56 +5,37 @@ import { MdEmail } from "react-icons/md";
 
 const Footer = () => {
   const hours = [
-    {
-      id: 1,
-      day: "Monday",
-      time: "9:00 AM - 11:00 PM",
-    },
-    {
-      id: 2,
-      day: "Tuesday",
-      time: "12:00 PM - 12:00 AM",
-    },
-    {
-      id: 3,
-      day: "Wednesday",
-      time: "10:00 AM - 10:00 PM",
-    },
-    {
-      id: 4,
-      day: "Thursday",
-      time: "9:00 AM - 9:00 PM",
-    },
-    {
-      id: 5,
-      day: "Monday",
-      time: "3:00 PM - 9:00 PM",
-    },
-    {
-      id: 6,
-      day: "Saturday",
-      time: "9:00 AM - 3:00 PM",
-    },
+    { id: 1, day: "Monday", time: "08:00 AM - 08:00 PM" },
+    { id: 2, day: "Tuesday", time: "08:00 AM - 08:00 PM" },
+    { id: 3, day: "Wednesday", time: "08:00 AM - 08:00 PM" },
+    { id: 4, day: "Thursday", time: "08:00 AM - 08:00 PM" },
+    { id: 5, day: "Friday", time: "08:00 AM - 06:00 PM" },
+    { id: 6, day: "Saturday", time: "09:00 AM - 03:00 PM" },
   ];
 
   return (
     <>
-      <footer className={"container"}>
-        <hr />
-        <div className="content">
+      <footer className={"container site-footer"}>
+        <div className="footer-top">
           <div>
-            <img src="/logo.png" alt="logo" className="logo-img"/>
+            <img src="/logo.png" alt="logo" className="logo-img" />
+            <p>
+              ZeeCare+ is designed to help patients check information quickly,
+              book appointments easily, and understand the next treatment step
+              with confidence.
+            </p>
           </div>
           <div>
-            <h4>Quick Links</h4>
+            <h4>Explore</h4>
             <ul>
               <Link to={"/"}>Home</Link>
               <Link to={"/appointment"}>Appointment</Link>
-              <Link to={"/about"}>About</Link>
+              <Link to={"/about"}>About Us</Link>
+              <Link to={"/profile"}>Our Profile</Link>
             </ul>
           </div>
           <div>
-            <h4>Hours</h4>
+            <h4>Care Hours</h4>
             <ul>
               {hours.map((element) => (
                 <li key={element.id}>
@@ -65,20 +46,23 @@ const Footer = () => {
             </ul>
           </div>
           <div>
-            <h4>Contact</h4>
+            <h4>Contact Desk</h4>
             <div>
               <FaPhone />
-              <span>999-999-9999</span>
+              <span>+91 99999 99999</span>
             </div>
             <div>
               <MdEmail />
-              <span>zeelab@gmail.com</span>
+              <span>care@zeecareplus.com</span>
             </div>
             <div>
               <FaLocationArrow />
-              <span>Toronto, Canada</span>
+              <span>Main Wellness Campus, New Delhi</span>
             </div>
           </div>
+        </div>
+        <div className="footer-bottom">
+          <p>Built to make hospital booking, profile access, and treatment guidance easier for patients.</p>
         </div>
       </footer>
     </>

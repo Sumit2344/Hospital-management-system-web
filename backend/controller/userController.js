@@ -5,33 +5,26 @@ import { generateToken } from "../utils/jwtToken.js";
 import cloudinary from "cloudinary";
 
 export const patientRegister = catchAsyncErrors(async (req, res, next) => {
-  const { firstName, lastName, email, phone, nic, dob, gender, password } =
-    req.body;
-  if (
-    !firstName ||
-    !lastName ||
-    !email ||
-    !phone ||
-    !nic ||
-    !dob ||
-    !gender ||
-    !password
-  ) {
+  const { name, firstName, email, phone, gender, password } = req.body;
+  const trimmedName = (name || firstName || "").trim();
+  if (!trimmedName || !email || !phone || !gender || !password) {
     return next(new ErrorHandler("Please Fill Full Form!", 400));
   }
 
-  const isRegistered = await User.findOne({ email });
+  const isRegistered = await User.findOne({
+    $or: [{ email }, { phone }],
+  });
   if (isRegistered) {
-    return next(new ErrorHandler("User already Registered!", 400));
+    return next(
+      new ErrorHandler("User with this email or mobile number already exists!", 400)
+    );
   }
 
   const user = await User.create({
-    firstName,
-    lastName,
+    firstName: trimmedName,
+    lastName: "",
     email,
     phone,
-    nic,
-    dob,
     gender,
     password,
     role: "Patient",
@@ -40,23 +33,27 @@ export const patientRegister = catchAsyncErrors(async (req, res, next) => {
 });
 
 export const login = catchAsyncErrors(async (req, res, next) => {
-  const { email, password, confirmPassword, role } = req.body;
-  if (!email || !password || !confirmPassword || !role) {
+  const { email, phone, identifier, password, role } = req.body;
+  const loginValue = (identifier || email || phone || "").trim();
+  if (!loginValue || !password || !role) {
     return next(new ErrorHandler("Please Fill Full Form!", 400));
   }
-  if (password !== confirmPassword) {
-    return next(
-      new ErrorHandler("Password & Confirm Password Do Not Match!", 400)
-    );
-  }
-  const user = await User.findOne({ email }).select("+password");
+
+  const query =
+    role === "Patient"
+      ? {
+          $or: [{ email: loginValue.toLowerCase() }, { phone: loginValue }],
+        }
+      : { email: loginValue.toLowerCase() };
+
+  const user = await User.findOne(query).select("+password");
   if (!user) {
-    return next(new ErrorHandler("Invalid Email Or Password!", 400));
+    return next(new ErrorHandler("Invalid login details or password!", 400));
   }
 
   const isPasswordMatch = await user.comparePassword(password);
   if (!isPasswordMatch) {
-    return next(new ErrorHandler("Invalid Email Or Password!", 400));
+    return next(new ErrorHandler("Invalid login details or password!", 400));
   }
   if (role !== user.role) {
     return next(new ErrorHandler(`User Not Found With This Role!`, 400));
@@ -65,14 +62,14 @@ export const login = catchAsyncErrors(async (req, res, next) => {
 });
 
 export const addNewAdmin = catchAsyncErrors(async (req, res, next) => {
-  const { firstName, lastName, email, phone, nic, dob, gender, password } =
+  const { firstName, lastName, email, phone,  dob, gender, password } =
     req.body;
   if (
     !firstName ||
     !lastName ||
     !email ||
     !phone ||
-    !nic ||
+    
     !dob ||
     !gender ||
     !password
@@ -90,7 +87,7 @@ export const addNewAdmin = catchAsyncErrors(async (req, res, next) => {
     lastName,
     email,
     phone,
-    nic,
+    
     dob,
     gender,
     password,
@@ -117,7 +114,7 @@ export const addNewDoctor = catchAsyncErrors(async (req, res, next) => {
     lastName,
     email,
     phone,
-    nic,
+    
     dob,
     gender,
     password,
@@ -128,7 +125,7 @@ export const addNewDoctor = catchAsyncErrors(async (req, res, next) => {
     !lastName ||
     !email ||
     !phone ||
-    !nic ||
+    
     !dob ||
     !gender ||
     !password ||
@@ -160,7 +157,7 @@ export const addNewDoctor = catchAsyncErrors(async (req, res, next) => {
     lastName,
     email,
     phone,
-    nic,
+    
     dob,
     gender,
     password,
