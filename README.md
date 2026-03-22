@@ -11,3 +11,18 @@ This Hospital Management System helps manage patients, doctors, and appointments
 - Secure Authentication (JWT)
 - Real-time Appointment Booking
 - Payment Integration
+---
+
+## 📸 Project Preview
+
+<p align="center">
+  <img src="screenshots/dashboard.png" width="800"/>
+</p>
+<p align="center"><b>📊 Dashboard</b></p>
+
+---
+
+<p align="center">
+  <img src="screenshots/appointment.png" width="800"/>
+</p>
+<p align="center"><b>📅 Appointment</b></p>
