@@ -1,3 +1,7 @@
+![MongoDB](https://img.shields.io/badge/MongoDB-Database-green)
+![Express](https://img.shields.io/badge/Express.js-Backend-black)
+![React](https://img.shields.io/badge/React-Frontend-blue)
+![Node.js](https://img.shields.io/badge/Node.js-Server-green)
  # 🏥 Hospital Management System (MERN Stack)
 
 A full-stack web application designed to digitalize and simplify hospital operations. The system provides a centralized platform for managing patients, doctors, staff, and medical records with secure access and real-time updates.
