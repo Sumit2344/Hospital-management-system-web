@@ -1,5 +1,8 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import VoiceMedicalAssistant from "../components/VoiceMedicalAssistant";
+import { API_URL } from "../api";
 
 const highlights = [
   {
@@ -23,9 +26,103 @@ const services = [
   "Orthopedics for bone pain, back pain, injury recovery, and joint care",
 ];
 
+const doctorProfiles = {
+  "aarav.sharma@zeecareplus.com": "Heart rhythm, blood pressure, and preventive cardiac care",
+  "diya.patel@zeecareplus.com": "Neurology support for headache, dizziness, and nerve review",
+  "rohan.verma@zeecareplus.com": "Orthopedics support for bone pain, posture, and mobility",
+  "anaya.mehta@zeecareplus.com": "Dermatology support for skin allergy, acne, and treatment plans",
+  "kabir.reddy@zeecareplus.com": "Pediatrics support for children, fever, and wellness checks",
+  "ira.kapoor@zeecareplus.com": "Oncology support for screening, guidance, and follow-up care",
+  "vivaan.nair@zeecareplus.com": "Radiology support for scans, imaging, and diagnosis coordination",
+  "saanvi.iyer@zeecareplus.com": "ENT support for ear, nose, throat, sinus, and allergy care",
+  "reyansh.gupta@zeecareplus.com": "Physical therapy support for pain recovery and body movement",
+  "myra.singh@zeecareplus.com": "Cardiology support for preventive care and recovery planning",
+};
+
 const Home = () => {
+  const [doctorSearch, setDoctorSearch] = useState("");
+  const [doctors, setDoctors] = useState([]);
+
+  useEffect(() => {
+    const fetchDoctors = async () => {
+      try {
+        const { data } = await axios.get(
+          `${API_URL}/api/v1/user/doctors`,
+          { withCredentials: true }
+        );
+        setDoctors(data.doctors || []);
+      } catch (error) {
+        setDoctors([]);
+      }
+    };
+
+    fetchDoctors();
+  }, []);
+
+  const searchValue = doctorSearch.trim().toLowerCase();
+  const filteredDoctors = doctors.filter((doctor) => {
+    const fullName = `${doctor.firstName} ${doctor.lastName}`.toLowerCase();
+    const department = (doctor.doctorDepartment || "").toLowerCase();
+    const medicalWork = (doctorProfiles[doctor.email] || "").toLowerCase();
+
+    return (
+      !searchValue ||
+      fullName.includes(searchValue) ||
+      department.includes(searchValue) ||
+      medicalWork.includes(searchValue)
+    );
+  });
+
   return (
     <main>
+      <section className="container section-block top-search-block">
+        <div className="section-heading">
+          <span className="eyebrow">Doctor Search</span>
+          <h2>Search doctor and medical work from Home</h2>
+          <p>
+            Search by doctor name, department, or type of medical work, then
+            move to the appointment page when you find the right match.
+          </p>
+        </div>
+
+        <div className="home-search-grid">
+          <div className="doctor-search-shell soft-surface">
+            <input
+              type="text"
+              value={doctorSearch}
+              onChange={(e) => setDoctorSearch(e.target.value)}
+              placeholder="Search doctor name, department, or medical work"
+              className="doctor-search-input"
+            />
+
+            <div className="search-results">
+              {filteredDoctors.slice(0, 6).map((doctor) => (
+                <article className="search-card" key={doctor._id}>
+                  <div>
+                    <h3>
+                      Dr. {doctor.firstName} {doctor.lastName}
+                    </h3>
+                    <p>{doctor.doctorDepartment}</p>
+                    <p>{doctorProfiles[doctor.email] || "General medical support"}</p>
+                  </div>
+                  <Link to="/appointment" className="btn primary-btn">
+                    Book
+                  </Link>
+                </article>
+              ))}
+
+              {!filteredDoctors.length ? (
+                <div className="search-empty">
+                  No doctor found. Try Cardiology, Skin, ENT, Pediatrics, or a doctor name.
+                </div>
+              ) : null}
+            </div>
+          </div>
+
+          <VoiceMedicalAssistant />
+        </div>
+      </section>
+
       <section className="hero-shell container">
         <div className="hero-copy">
           <span className="eyebrow">Better Patient Experience</span>

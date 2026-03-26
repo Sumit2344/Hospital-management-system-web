@@ -3,6 +3,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { Context } from "../main";
 import { Navigate } from "react-router-dom";
+import { API_URL } from "../api";
 
 const Messages = () => {
   const [messages, setMessages] = useState([]);
@@ -11,12 +12,14 @@ const Messages = () => {
     const fetchMessages = async () => {
       try {
         const { data } = await axios.get(
-          "http://localhost:5000/api/v1/message/getall",
+          `${API_URL}/api/v1/message/getall`,
           { withCredentials: true }
         );
         setMessages(data.messages);
       } catch (error) {
-        console.log(error.response.data.message);
+        toast.error(
+          error.response?.data?.message || "Unable to load messages."
+        );
       }
     };
     fetchMessages();

@@ -1,8 +1,9 @@
 import mongoose from "mongoose";
 
 export const dbConnection = () => {
+  const mongoUri = process.env.MONGO_URI || process.env.MONGODB_URI;
   mongoose
-    .connect(process.env.MONGO_URI)
+    .connect(mongoUri)
     .then(() => {
       console.log("Connected to database!");
     })

@@ -3,6 +3,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Context } from "../main";
+import { API_URL } from "../api";
 
 const departmentsArray = [
   "Pediatrics",
@@ -38,7 +39,7 @@ const AppointmentForm = ({ preselectedDoctorId = "" }) => {
     const fetchDoctors = async () => {
       try {
         const { data } = await axios.get(
-          "http://localhost:5000/api/v1/user/doctors",
+          `${API_URL}/api/v1/user/doctors`,
           { withCredentials: true }
         );
         setDoctors(data.doctors || []);
@@ -98,7 +99,7 @@ const AppointmentForm = ({ preselectedDoctorId = "" }) => {
     try {
       setIsSubmitting(true);
       const { data } = await axios.post(
-        "http://localhost:5000/api/v1/appointment/post",
+        `${API_URL}/api/v1/appointment/post`,
         {
           firstName,
           lastName,

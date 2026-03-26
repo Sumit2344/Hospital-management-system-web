@@ -3,7 +3,6 @@ dotenv.config({ path: "./config.env" });
 
 import express from "express";
 import { dbConnection } from "./database/dbConnection.js";
-import { config } from "dotenv";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import fileUpload from "express-fileupload";
@@ -18,7 +17,7 @@ const app = express();
 app.use(
   cors({
     origin: [process.env.FRONTEND_URL_ONE, process.env.FRONTEND_URL_TWO],
-    method: ["GET", "POST", "DELETE", "PUT"],
+    methods: ["GET", "POST", "DELETE", "PUT"],
     credentials: true,
   })
 );

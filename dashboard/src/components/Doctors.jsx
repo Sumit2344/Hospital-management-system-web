@@ -3,6 +3,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { Context } from "../main";
 import { Navigate } from "react-router-dom";
+import { API_URL } from "../api";
 
 const Doctors = () => {
   const [doctors, setDoctors] = useState([]);
@@ -11,12 +12,14 @@ const Doctors = () => {
     const fetchDoctors = async () => {
       try {
         const { data } = await axios.get(
-          "http://localhost:5000/api/v1/user/doctors",
+          `${API_URL}/api/v1/user/doctors`,
           { withCredentials: true }
         );
         setDoctors(data.doctors);
       } catch (error) {
-        toast.error(error.response.data.message);
+        toast.error(
+          error.response?.data?.message || "Unable to load doctors."
+        );
       }
     };
     fetchDoctors();

@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import AppointmentForm from "../components/AppointmentForm";
+import { API_URL } from "../api";
 
 const points = [
   "Login once, then use your saved patient details for easier appointment booking.",
@@ -59,7 +60,7 @@ const Appointment = () => {
     const fetchDoctors = async () => {
       try {
         const { data } = await axios.get(
-          "http://localhost:5000/api/v1/user/doctors",
+          `${API_URL}/api/v1/user/doctors`,
           { withCredentials: true }
         );
         setDoctors(data.doctors || []);

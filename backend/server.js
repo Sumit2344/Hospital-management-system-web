@@ -12,8 +12,9 @@ cloudinary.v2.config({
 });
 
 app.listen(process.env.PORT, () => {
-  console.log("MONGO URI:", process.env.MONGO_URI);
-console.log("PORT:", process.env.PORT);
+  console.log("MongoDB connection configured.");
+  console.log("PORT:", process.env.PORT);
   console.log(`Server listening at port ${process.env.PORT}`);
 });
+ 
  

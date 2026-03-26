@@ -3,6 +3,7 @@ import { Navigate, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Context } from "../main";
 import axios from "axios";
+import { API_URL } from "../api";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -17,7 +18,7 @@ const Login = () => {
     try {
       await axios
         .post(
-          "http://localhost:5000/api/v1/user/login",
+          `${API_URL}/api/v1/user/login`,
           { email, password, role: "Admin" },
           {
             withCredentials: true,
@@ -32,7 +33,9 @@ const Login = () => {
            
         });
     } catch (error) {
-      toast.error(error.response.data.message);
+      toast.error(
+        error.response?.data?.message || "Login failed. Please try again."
+      );
     }
   };
 

@@ -9,6 +9,7 @@ import { IoPersonAddSharp } from "react-icons/io5";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { Context } from "../main";
+import { API_URL } from "../api";
 import { useNavigate } from "react-router-dom";
 
 const Sidebar = () => {
@@ -18,7 +19,7 @@ const Sidebar = () => {
 
   const handleLogout = async () => {
     await axios
-      .get("http://localhost:5000/api/v1/user/admin/logout", {
+      .get(`${API_URL}/api/v1/user/admin/logout`, {
         withCredentials: true,
       })
       .then((res) => {
@@ -26,7 +27,9 @@ const Sidebar = () => {
         setIsAuthenticated(false);
       })
       .catch((err) => {
-        toast.error(err.response.data.message);
+        toast.error(
+          err.response?.data?.message || "Logout failed. Please try again."
+        );
       });
   };
 

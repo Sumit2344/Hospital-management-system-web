@@ -13,6 +13,8 @@ import axios from "axios";
 import { Context } from "./main";
 import Login from "./Pages/Login";
 import Profile from "./Pages/Profile";
+import MedicineStore from "./Pages/MedicineStore";
+import { API_URL } from "./api";
 const App = () => {
   const { isAuthenticated, setIsAuthenticated, setUser } =
     useContext(Context);
@@ -21,7 +23,7 @@ const App = () => {
     const fetchUser = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:5000/api/v1/user/patient/me",
+          `${API_URL}/api/v1/user/patient/me`,
           {
             withCredentials: true,
           }
@@ -45,6 +47,7 @@ const App = () => {
           <Route path="/appointment" element={<Appointment />} />
           <Route path="/about" element={<AboutUs />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/store" element={<MedicineStore />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
         </Routes>

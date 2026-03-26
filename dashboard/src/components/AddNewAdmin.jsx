@@ -3,6 +3,7 @@ import { Context } from "../main";
 import { Navigate, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
+import { API_URL } from "../api";
 
 const AddNewAdmin = () => {
   const { isAuthenticated, setIsAuthenticated } = useContext(Context);
@@ -22,7 +23,7 @@ const AddNewAdmin = () => {
     try {
       await axios
         .post(
-          "http://localhost:5000/api/v1/user/admin/addnew",
+          `${API_URL}/api/v1/user/admin/addnew`,
           { firstName, lastName, email, phone, dob, gender, password },
           {
             withCredentials: true,
@@ -42,7 +43,9 @@ const AddNewAdmin = () => {
           setPassword("");
         });
     } catch (error) {
-      toast.error(error.response.data.message);
+      toast.error(
+        error.response?.data?.message || "Unable to add admin. Please try again."
+      );
     }
   };
 
