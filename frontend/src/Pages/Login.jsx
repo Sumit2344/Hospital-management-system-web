@@ -44,6 +44,14 @@ const Login = () => {
     return <Navigate to={"/"} />;
   }
 
+  const handleGoogleLogin = () => {
+    window.location.href = `${API_URL}/api/v1/user/oauth/google`;
+  };
+
+  const handleGithubLogin = () => {
+    window.location.href = `${API_URL}/api/v1/user/oauth/github`;
+  };
+
   return (
     <>
       <div className="container form-component login-form">
@@ -84,6 +92,14 @@ const Login = () => {
           </div>
           <div style={{ justifyContent: "center", alignItems: "center" }}>
             <button type="submit">Login</button>
+          </div>
+          <div className="oauth-actions">
+            <button type="button" className="btn ghost-btn" onClick={handleGoogleLogin}>
+              Login with Google
+            </button>
+            <button type="button" className="btn ghost-btn" onClick={handleGithubLogin}>
+              Login with GitHub
+            </button>
           </div>
         </form>
       </div>

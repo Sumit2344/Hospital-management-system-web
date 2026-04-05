@@ -31,11 +31,13 @@ const userSchema = new mongoose.Schema({
   },
   phone: {
     type: String,
-    required: [true, "Phone Is Required!"],
+    required: function () {
+      return !this.authProvider;
+    },
     unique: true,                // Optional: prevent duplicate numbers
     validate: {
       validator: function (v) {
-        return /^[6-9]\d{9}$/.test(v); // India format: 10 digits, start 6-9
+        return !v || /^[6-9]\d{9}$/.test(v); // India format: 10 digits, start 6-9
       },
       message: "Phone Number Must Be Exactly 10 Digits!",
     },
@@ -45,12 +47,16 @@ const userSchema = new mongoose.Schema({
   },
   gender: {
     type: String,
-    required: [true, "Gender Is Required!"],
+    required: function () {
+      return !this.authProvider;
+    },
     enum: ["Male", "Female"],
   },
   password: {
     type: String,
-    required: [true, "Password Is Required!"],
+    required: function () {
+      return !this.authProvider;
+    },
     minLength: [8, "Password Must Contain At Least 8 Characters!"],
     select: false,
   },
@@ -66,11 +72,20 @@ const userSchema = new mongoose.Schema({
     public_id: String,
     url: String,
   },
+  authProvider: {
+    type: String,
+    enum: ["google", "github", null],
+    default: null,
+  },
+  providerId: {
+    type: String,
+    default: null,
+  },
 });
 
 // Password Hashing
 userSchema.pre("save", async function (next) {
-  if (!this.isModified("password")) return next();
+  if (!this.password || !this.isModified("password")) return next();
   this.password = await bcrypt.hash(this.password, 10);
 });
 

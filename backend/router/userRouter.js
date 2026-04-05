@@ -4,6 +4,10 @@ import {
   addNewDoctor,
   getAllDoctors,
   getUserDetails,
+  handleGithubOAuth,
+  handleGoogleOAuth,
+  beginGithubOAuth,
+  beginGoogleOAuth,
   login,
   logoutAdmin,
   logoutPatient,
@@ -23,6 +27,10 @@ router.post("/doctor/addnew", isAdminAuthenticated, addNewDoctor);
 router.get("/doctors", getAllDoctors);
 router.get("/patient/me", isPatientAuthenticated, getUserDetails);
 router.get("/admin/me",isAdminAuthenticated, getUserDetails);
+router.get("/oauth/google", beginGoogleOAuth);
+router.get("/oauth/google/callback", handleGoogleOAuth);
+router.get("/oauth/github", beginGithubOAuth);
+router.get("/oauth/github/callback", handleGithubOAuth);
 router.get("/patient/logout", isPatientAuthenticated, logoutPatient);
 router.get("/admin/logout", isAdminAuthenticated, logoutAdmin);
 
