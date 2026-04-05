@@ -1,5 +1,5 @@
 const CACHE_NAME = "zeecare-pwa-v1";
-const APP_SHELL = ["/", "/manifest.webmanifest", "/logo.png"];
+const APP_SHELL = ["/", "/manifest.webmanifest", "/icon-192.png", "/icon-512.png"];
 
 self.addEventListener("install", (event) => {
   event.waitUntil(
