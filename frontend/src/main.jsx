@@ -29,3 +29,11 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     <AppWrapper />
   </React.StrictMode>
 );
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("/sw.js").catch(() => {
+      // Ignore registration failures in unsupported/demo environments.
+    });
+  });
+}

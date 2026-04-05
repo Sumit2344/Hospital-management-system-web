@@ -1,0 +1,24 @@
+{
+  "name": "ZeeCare+ Hospital App",
+  "short_name": "ZeeCare+",
+  "description": "Hospital management app with appointments, emergency care, medicine ordering, and patient profile.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f4f1e8",
+  "theme_color": "#1f6f5f",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/logo.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
