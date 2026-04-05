@@ -1,4 +1,4 @@
-export const medicines = [
+const baseMedicines = [
   { id: 1, name: "Paracetamol 500", category: "Fever", use: "Reduces fever and mild pain", price: "Rs. 25", stock: "In Stock", company: "MediCare Labs" },
   { id: 2, name: "Ibuprofen 400", category: "Pain Relief", use: "Pain and inflammation support", price: "Rs. 48", stock: "In Stock", company: "HealthNova" },
   { id: 3, name: "Amoxicillin 250", category: "Antibiotic", use: "Bacterial infection treatment", price: "Rs. 92", stock: "Prescription", company: "BioSure" },
@@ -50,3 +50,49 @@ export const medicines = [
   { id: 49, name: "Digital Thermometer", category: "Health Device", use: "Fast temperature check", price: "Rs. 160", stock: "In Stock", company: "CareTech" },
   { id: 50, name: "Pulse Oximeter", category: "Health Device", use: "Checks oxygen and pulse", price: "Rs. 420", stock: "In Stock", company: "CareTech" },
 ];
+
+const localStoreZones = [
+  "Civil Lines",
+  "Model Town",
+  "Old Bus Stand",
+  "Market Road",
+  "Hospital Chowk",
+  "Green Avenue",
+];
+
+const storageGuides = [
+  "Store below 25C and keep away from direct sunlight",
+  "Keep in a cool and dry place; do not freeze",
+  "Keep sealed after opening and protect from humidity",
+  "Store upright and keep away from children",
+];
+
+const dosageGuides = [
+  "Use only as advised by doctor or pharmacist",
+  "Follow label directions and complete the prescribed course",
+  "Take after food unless doctor says otherwise",
+  "Check prescription for exact dosage and timing",
+];
+
+export const medicines = baseMedicines.map((medicine, index) => {
+  const manufactureMonth = (index % 9) + 1;
+  const expiryMonth = ((index + 11) % 12) + 1;
+  const manufactureYear = 2024 + (index % 2);
+  const expiryYear = 2027 + (index % 2);
+
+  return {
+    ...medicine,
+    pack: index % 5 === 0 ? "Bottle Pack" : index % 3 === 0 ? "Tube Pack" : "Tablet Strip",
+    quantityLabel: index % 4 === 0 ? "15 units" : index % 3 === 0 ? "30 units" : "10 units",
+    manufacturedOn: `${String(manufactureMonth).padStart(2, "0")}/${manufactureYear}`,
+    expiresOn: `${String(expiryMonth).padStart(2, "0")}/${expiryYear}`,
+    storeZone: localStoreZones[index % localStoreZones.length],
+    deliveryTime: `${12 + (index % 5) * 6} mins`,
+    storage: storageGuides[index % storageGuides.length],
+    dosage: dosageGuides[index % dosageGuides.length],
+    availabilityNote:
+      medicine.stock === "Prescription"
+        ? "Prescription verification needed before dispatch"
+        : "Fast pickup and home delivery available today",
+  };
+});

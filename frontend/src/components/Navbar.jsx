@@ -61,6 +61,9 @@ const Navbar = () => {
             <Link to={"/store"} onClick={() => setShow(false)}>
               Medicine Store
             </Link>
+            <Link to={"/emergency"} onClick={() => setShow(false)}>
+              Emergency Care
+            </Link>
           </div>
           <div className="nav-actions">
             <Link to={"/appointment"} className="btn ghost-btn" onClick={() => setShow(false)}>

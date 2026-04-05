@@ -18,6 +18,7 @@ const doctorChecks = [
 const Profile = () => {
   const { isAuthenticated, user } = useContext(Context);
   const [preview, setPreview] = useState("");
+  const [showDetails, setShowDetails] = useState(false);
 
   useEffect(() => {
     const storedAvatar = window.localStorage.getItem("zeecare-profile-avatar");
@@ -71,7 +72,11 @@ const Profile = () => {
       <section className="profile-grid">
         <article className="profile-card soft-surface">
           <span className="eyebrow">Our Profile</span>
-          <div className="avatar-shell">
+          <button
+            type="button"
+            className={showDetails ? "avatar-shell profile-reveal-btn profile-reveal-btn-active" : "avatar-shell profile-reveal-btn"}
+            onClick={() => setShowDetails((prev) => !prev)}
+          >
             {preview ? (
               <img src={preview} alt="profile preview" className="profile-avatar" />
             ) : (
@@ -79,9 +84,10 @@ const Profile = () => {
                 {user.firstName?.[0] || "P"}
               </div>
             )}
-          </div>
+          </button>
           <h2>{fullName || "Patient Profile"}</h2>
           <p>{user.email}</p>
+          <p>Tap the round photo to {showDetails ? "hide" : "show"} your full information.</p>
           <label className="upload-btn">
             Change Profile Photo
             <input type="file" accept="image/*" onChange={handleImageChange} />
@@ -90,28 +96,34 @@ const Profile = () => {
 
         <article className="profile-card scenic-surface">
           <span className="eyebrow">Patient Details</span>
-          <div className="details-grid">
-            <div>
-              <strong>Name</strong>
-              <span>{fullName || "Not available"}</span>
+          {showDetails ? (
+            <div className="details-grid">
+              <div>
+                <strong>Name</strong>
+                <span>{fullName || "Not available"}</span>
+              </div>
+              <div>
+                <strong>Email</strong>
+                <span>{user.email || "Not available"}</span>
+              </div>
+              <div>
+                <strong>Mobile</strong>
+                <span>{user.phone || "Not available"}</span>
+              </div>
+              <div>
+                <strong>Gender</strong>
+                <span>{user.gender || "Not available"}</span>
+              </div>
+              <div>
+                <strong>Role</strong>
+                <span>{user.role || "Patient"}</span>
+              </div>
             </div>
-            <div>
-              <strong>Email</strong>
-              <span>{user.email || "Not available"}</span>
+          ) : (
+            <div className="profile-collapsed-note">
+              Tap your profile image to reveal all personal information, just like an interactive card view.
             </div>
-            <div>
-              <strong>Mobile</strong>
-              <span>{user.phone || "Not available"}</span>
-            </div>
-            <div>
-              <strong>Gender</strong>
-              <span>{user.gender || "Not available"}</span>
-            </div>
-            <div>
-              <strong>Role</strong>
-              <span>{user.role || "Patient"}</span>
-            </div>
-          </div>
+          )}
         </article>
       </section>
 

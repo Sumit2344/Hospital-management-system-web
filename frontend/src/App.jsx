@@ -14,6 +14,7 @@ import { Context } from "./main";
 import Login from "./Pages/Login";
 import Profile from "./Pages/Profile";
 import MedicineStore from "./Pages/MedicineStore";
+import EmergencyCare from "./Pages/EmergencyCare";
 import { API_URL } from "./api";
 const App = () => {
   const { isAuthenticated, setIsAuthenticated, setUser } =
@@ -48,6 +49,7 @@ const App = () => {
           <Route path="/about" element={<AboutUs />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/store" element={<MedicineStore />} />
+          <Route path="/emergency" element={<EmergencyCare />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
         </Routes>
