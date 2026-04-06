@@ -56,7 +56,7 @@ This Hospital Management System helps manage patients, doctors, and appointments
 ## 🚀 Live Demo
 
 🔗 Click here to view the project:  
-👉 [Open Project](https://wheezier-unspawned-lewis.ngrok-free.dev)
+👉 [Open Project](hospital-management-system-web-six.vercel.app)
 
 ---
 
