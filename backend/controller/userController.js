@@ -3,6 +3,7 @@ import { User } from "../models/userSchema.js";
 import ErrorHandler from "../middlewares/error.js";
 import { generateToken } from "../utils/jwtToken.js";
 import cloudinary from "cloudinary";
+import { defaultDoctors } from "../data/defaultDoctors.js";
 
 const getOAuthRedirectBase = () =>
   process.env.OAUTH_SUCCESS_REDIRECT ||
@@ -16,6 +17,21 @@ const getGoogleRedirectUri = () =>
 const getGithubRedirectUri = () =>
   process.env.GITHUB_REDIRECT_URI ||
   `${process.env.BACKEND_URL || "http://localhost:5000"}/api/v1/user/oauth/github/callback`;
+
+const ensureDefaultDoctors = async () => {
+  const doctorCount = await User.countDocuments({ role: "Doctor" });
+  if (doctorCount > 0) {
+    return;
+  }
+
+  await User.insertMany(
+    defaultDoctors.map((doctor) => ({
+      ...doctor,
+      password: "doctor123",
+      role: "Doctor",
+    }))
+  );
+};
 
 const completeOAuthLogin = (user, res) => {
   const token = user.generateJsonWebToken();
@@ -208,6 +224,7 @@ export const addNewDoctor = catchAsyncErrors(async (req, res, next) => {
 });
 
 export const getAllDoctors = catchAsyncErrors(async (req, res, next) => {
+  await ensureDefaultDoctors();
   const doctors = await User.find({ role: "Doctor" });
   res.status(200).json({
     success: true,

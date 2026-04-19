@@ -79,6 +79,7 @@ const MedicineStore = () => {
   const [paymentLoading, setPaymentLoading] = useState(false);
   const [checkoutMode, setCheckoutMode] = useState("cart");
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("cod");
+  const [onlinePaymentsEnabled, setOnlinePaymentsEnabled] = useState(false);
   const [selectedMedicine, setSelectedMedicine] = useState(null);
   const [paymentSuccess, setPaymentSuccess] = useState(null);
   const [activeSection, setActiveSection] = useState("browse");
@@ -140,6 +141,21 @@ const MedicineStore = () => {
       JSON.stringify(selectedStore)
     );
   }, [selectedStore]);
+
+  useEffect(() => {
+    const fetchPaymentConfig = async () => {
+      try {
+        const { data } = await axios.get(`${API_URL}/api/v1/payment/config`, {
+          withCredentials: true,
+        });
+        setOnlinePaymentsEnabled(Boolean(data.onlinePaymentsEnabled));
+      } catch {
+        setOnlinePaymentsEnabled(false);
+      }
+    };
+
+    fetchPaymentConfig();
+  }, []);
 
   const getIntegerPrice = (price) => {
     const numericValue = parseInt(String(price).replace(/[^\d]/g, ""), 10);
@@ -262,6 +278,14 @@ const MedicineStore = () => {
       const scriptLoaded = await loadRazorpayScript();
       if (!scriptLoaded) {
         setPurchaseNote("Unable to load Razorpay checkout right now. Please try again.");
+        return;
+      }
+
+      if (!onlinePaymentsEnabled) {
+        setPurchaseNote(
+          "Online payment is not configured right now. Please use Cash on Delivery."
+        );
+        setSelectedPaymentMethod("cod");
         return;
       }
 
@@ -630,10 +654,22 @@ const MedicineStore = () => {
               <button
                 type="button"
                 className={selectedPaymentMethod === "online" ? "store-location-card store-location-card-active" : "store-location-card"}
-                onClick={() => setSelectedPaymentMethod("online")}
+                onClick={() => {
+                  if (!onlinePaymentsEnabled) {
+                    setPurchaseNote(
+                      "Online payment is not configured yet. Use Cash on Delivery for now."
+                    );
+                    return;
+                  }
+                  setSelectedPaymentMethod("online");
+                }}
               >
                 <strong>UPI / Card / Netbanking</strong>
-                <span>Pay now using Razorpay test checkout</span>
+                <span>
+                  {onlinePaymentsEnabled
+                    ? "Pay now using Razorpay test checkout"
+                    : "Online payment currently unavailable"}
+                </span>
               </button>
               </div>
             </div>

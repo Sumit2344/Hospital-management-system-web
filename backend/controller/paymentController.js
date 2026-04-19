@@ -13,6 +13,15 @@ const createBasicAuthHeader = () => {
   return `Basic ${Buffer.from(`${keyId}:${keySecret}`).toString("base64")}`;
 };
 
+export const getPaymentConfig = catchAsyncErrors(async (req, res) => {
+  res.status(200).json({
+    success: true,
+    onlinePaymentsEnabled: Boolean(
+      process.env.RAZORPAY_KEY_ID && process.env.RAZORPAY_KEY_SECRET
+    ),
+  });
+});
+
 export const createRazorpayOrder = catchAsyncErrors(async (req, res, next) => {
   const { amount, itemName } = req.body;
   const normalizedAmount = Number(amount);
